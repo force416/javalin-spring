@@ -15,19 +15,15 @@ import static io.javalin.apibuilder.ApiBuilder.*;
 
 @Component
 public class Routes {
-
     private final static Logger logger = LoggerFactory.getLogger(Routes.class);
-
-    @Autowired
     private UserController userController;
-
     private Gson gson = new Gson();
 
     public void start() {
         Javalin app = Javalin.create().start(8080);
         handleException(app);
-        handlePath(app);
         handleMiddleware(app);
+        handlePath(app);
     }
 
     private void handleException(Javalin app) {
@@ -41,13 +37,6 @@ public class Routes {
         });
     }
 
-    private void handlePath(Javalin app) {
-        app.routes(() -> path("/api", () -> {
-            get("/user/:id", userController.getUser());
-            get("/user", userController.getUsers());
-        }));
-    }
-
     private void handleMiddleware(Javalin app) {
         app.after("/api/*", ctx -> {
             Object obj = gson.fromJson(ctx.resultString(), Object.class);
@@ -57,5 +46,17 @@ public class Routes {
             }};
             ctx.json(map);
         });
+    }
+
+    private void handlePath(Javalin app) {
+        app.routes(() -> path("/api", () -> {
+            get("/user/:id", userController::getUser);
+            get("/user", userController::getUsers);
+        }));
+    }
+
+    @Autowired
+    public void setUserController(UserController userController) {
+        this.userController = userController;
     }
 }
