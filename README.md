@@ -7,7 +7,7 @@ User jwt token for api auth
 ## How to build an executable jar file
 
 ```shell script
-$ mvn package
+$ ./mvnw clean package
 ```
 
 ### run
