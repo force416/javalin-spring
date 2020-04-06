@@ -11,15 +11,12 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class JWTUtil {
-
-    private String secret;
     private Algorithm algorithm;
     private JWTVerifier verifier;
 
     private JWTUtil() {}
 
     public JWTUtil(String secret) {
-        this.secret = secret;
         this.algorithm = Algorithm.HMAC256(secret);
         this.verifier = JWT.require(this.algorithm).build();
     }
