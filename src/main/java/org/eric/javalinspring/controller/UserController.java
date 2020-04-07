@@ -16,10 +16,6 @@ public class UserController {
         ctx.json(userService.getUser(id.get()));
     }
 
-    public void getUsers(Context ctx) {
-        ctx.json(userService.getUsers());
-    }
-
     @Autowired
     public void setUserService(UserService userService) {
         this.userService = userService;
